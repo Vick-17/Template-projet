@@ -60,7 +60,7 @@ public class UserService extends GenericServiceImpl<UserEntities, Integer, UserD
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // ATTENTION -> objet de la classe "fr.afpahostel.models.User"
+        // ATTENTION -> objet de la classe "models.User"
         UserEntities user = userRepositories.findByUsername(username);
         if (user == null) {
             // pas d'utilisateur, on renvoie une exception
