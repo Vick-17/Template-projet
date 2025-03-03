@@ -1,14 +1,16 @@
 package com.projectspring.api.Dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.projectspring.api.Models.RoleEntities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 @Getter
 @Setter
@@ -33,4 +35,6 @@ public class UserDto implements Serializable {
     
     @JsonProperty("password")
     private String password;
+
+    private Collection<RoleEntities> roles = new ArrayList<>();
 }

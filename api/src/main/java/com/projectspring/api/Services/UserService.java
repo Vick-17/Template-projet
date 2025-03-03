@@ -88,14 +88,22 @@ public class UserService extends GenericServiceImpl<UserEntities, Integer, UserD
         }
     }
 
-    @Transactional
-    public RoleEntities postRole(RoleEntities role) {
-        return roleRepositories.save(role);
-    }
-
-    @Override
-    public UserDto saveOrUpdate(UserDto dto) {
-        return super.saveOrUpdate(dto);
+    public UserDto createUser(UserDto users) {
+        UserEntities existingUser = repository.findByUsername(users.getUsername());
+        if (existingUser != null) {
+            throw new RuntimeException("L'adresse e-mail est déjà utilisée.");
+        }
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String passwordEncode = bCryptPasswordEncoder.encode(users.getPassword());
+        users.setPassword(passwordEncode);
+        RoleEntities userRole = roleRepositories.findByName("ROLE_USER");
+        if (userRole == null) {
+            userRole = new RoleEntities();
+            userRole.setName("ROLE_USER");
+            roleRepositories.save(userRole);
+        }
+        users.getRoles().add(userRole);
+        return saveOrUpdate(users);
     }
 
 
